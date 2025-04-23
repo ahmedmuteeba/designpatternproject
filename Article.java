@@ -1,9 +1,4 @@
-public interface Article{
-
-        int getPriceOfArticle();
-
-        String getColorOfArticle();
-
+public class Article {
+    public int priceOfArticle;
+    public String colorOfArticle;
 }
-
-

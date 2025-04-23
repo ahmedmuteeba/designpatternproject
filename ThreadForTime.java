@@ -1,17 +1,13 @@
 import java.time.LocalTime;
 
-public class ThreadForTime implements Runnable{
-
-    LocalTime lt = LocalTime.now();
-
-    @Override
+public class ThreadForTime implements Runnable {
     public void run() {
         try {
-            while(true) {
+            while (true) {
                 Thread.sleep(120000);
-                System.out.println(lt);
-                }
-            }catch(InterruptedException e) {
+                System.out.println(LocalTime.now());
+            }
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
