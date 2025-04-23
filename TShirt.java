@@ -1,5 +1,4 @@
-public class TShirt implements Article{
-
+public class TShirt implements Article {
     private int priceOfArticle;
     private String colorOfArticle;
 
@@ -8,23 +7,15 @@ public class TShirt implements Article{
         this.colorOfArticle = colorOfArticle;
     }
 
-    public static TShirt getTShirt(int priceOfArticle, String colorOfArticle){
-        TShirt ts = new TShirt(priceOfArticle, colorOfArticle);
-        return ts;
+    public static TShirt getTShirt(int priceOfArticle, String colorOfArticle) {
+        return new TShirt(priceOfArticle, colorOfArticle);
     }
+
+    public int getPriceOfArticle() { return this.priceOfArticle; }
+    public String getColorOfArticle() { return this.colorOfArticle; }
 
     @Override
     public String toString() {
         return this.priceOfArticle + "~" + this.colorOfArticle + "~";
-    }
-
-    @Override
-    public int getPriceOfArticle() {
-        return  this.priceOfArticle;
-    }
-
-    @Override
-    public String getColorOfArticle() {
-        return this.colorOfArticle;
     }
 }

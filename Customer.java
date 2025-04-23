@@ -1,11 +1,12 @@
 import java.util.*;
-public class Customer{
+
+public class Customer {
     private String lastName;
     private String firstName;
     private boolean discountCard;
-    ArrayList <Article> listOfCustomerArticles = null;
+    ArrayList<Article> listOfCustomerArticles = null;
 
-    private Customer(String lastName, String firstName, boolean discountCard){
+    private Customer(String lastName, String firstName, boolean discountCard) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.discountCard = discountCard;
@@ -16,20 +17,12 @@ public class Customer{
         return new Customer(lastName, firstName, discountCard);
     }
 
+    public String getLastName() { return this.lastName; }
+    public String getFirstName() { return this.firstName; }
+    public boolean isDiscountCard() { return this.discountCard; }
+
     @Override
-    public String toString(){
+    public String toString() {
         return this.lastName + "~" + this.firstName + "~" + this.discountCard;
-    }
-
-    public String getLastName() {
-        return  this.lastName;
-    }
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public boolean isDiscountCard() {
-        return this.discountCard;
     }
 }
