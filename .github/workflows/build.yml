@@ -21,8 +21,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Compile Java files
-        run: javac *.java
+      - name: Create bin folder & Compile Java files
+        run: |
+          mkdir -p bin
+          javac -d bin *.java
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
