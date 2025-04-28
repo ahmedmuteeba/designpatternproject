@@ -2,36 +2,93 @@ import java.util.Scanner;
 
 public class TestShop {
     public static void main(String[] args) {
-        ThreadForTime tft = new ThreadForTime();
-        Thread t = new Thread(tft);
+        ThreadForTime timeThread = new ThreadForTime();
+        Thread t = new Thread(timeThread);
         t.start();
 
         Scanner sc = new Scanner(System.in);
-        String[] commandsArr;
-        Shop shop = Shop.getShop();
-        Customer c = Customer.getCustomer("Andrew", "Giant", true);
-        Article a = Jeans.getJeans(10, "BLUE", true);
+        Shop shop = Shop.getShop(); // Singleton Pattern
 
-        while(true) {
-            System.out.println("Type a command");
-            commandsArr = sc.nextLine().toUpperCase().split("\s+");
+        Customer customer = Customer.getCustomer("Andrew", "Giant", true); // Factory Method
+        Article jeans = Jeans.getJeans(10, "BLUE", true); // Factory Method
+
+        System.out.println("Welcome to FiberSync Fashion Store!");
+        System.out.println("Customer: " + customer.getFirstName() + " " + customer.getLastName());
+        System.out.println("Type one of the following commands to proceed:\n");
+
+        while (true) {
+            printMenu();
+
+            System.out.print(">> ");
+            String input = sc.nextLine().trim().toUpperCase();
+
             try {
-                switch (commandsArr[0]) {
-                    case "EXIT": System.out.println("Exit from shop!"); System.exit(0); break;
-                    case "USEDRESSING": shop.useDressingRoom(c); break;
-                    case "FREEUPDRESSING": shop.freeUpDressingRoom(); break;
-                    case "ADDCUSTOMERINSHOP": shop.addCustomerInShop(c); break;
-                    case "SHOWCUSTOMERSSHOP": shop.showAllCustomersFromShop(); break;
-                    case "SHOWARTICLESSHOP": shop.showAllTheArticlesFromShop(); break;
-                    case "SHOWCUSTOMERARTICLES": shop.showCustomerArticles(c); break;
-                    case "ADDARTICLEFORCUSTOMER": shop.addArticleForCustomer(c, a); break;
-                    case "ADDARTICLEINSHOP": shop.addArticleInShop(a); break;
-                    case "CUSTOMERBILL": System.out.println("Customer spent: " + shop.moneySpentByCustomer(c)); break;
-                    default: System.out.println("WRONG COMMAND!");
+                switch (input) {
+                    case "USEDRESSING":
+                        shop.useDressingRoom(customer);
+                        System.out.println("Customer entered the dressing room.");
+                        break;
+                    case "FREEUPDRESSING":
+                        shop.freeUpDressingRoom();
+                        System.out.println("Dressing room freed.");
+                        break;
+                    case "ADDCUSTOMERINSHOP":
+                        Command addCustomer = new AddCustomerCommand(shop, customer); // Command Pattern
+                        addCustomer.execute();
+                        System.out.println("Customer added to shop.");
+                        break;
+                    case "SHOWCUSTOMERSSHOP":
+                        System.out.println("Customers in shop:");
+                        shop.showAllCustomersFromShop();
+                        break;
+                    case "SHOWARTICLESSHOP":
+                        System.out.println("Articles in shop:");
+                        shop.showAllTheArticlesFromShop();
+                        break;
+                    case "SHOWCUSTOMERARTICLES":
+                        System.out.println("Customer's articles:");
+                        shop.showCustomerArticles(customer);
+                        break;
+                    case "ADDARTICLEFORCUSTOMER":
+                        shop.addArticleForCustomer(customer, jeans);
+                        System.out.println("Article added for customer.");
+                        break;
+                    case "ADDARTICLEINSHOP":
+                        Command addArticle = new AddArticleCommand(shop, jeans); // Command Pattern
+                        addArticle.execute();
+                        System.out.println("Article added to shop.");
+                        break;
+                    case "CUSTOMERBILL":
+                        int total = shop.moneySpentByCustomer(customer); // Strategy Pattern
+                        System.out.println("Total amount spent by customer: $" + total);
+                        break;
+                    case "EXIT":
+                        System.out.println("Thank you for visiting FiberSync! Exiting...");
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Invalid command. Please choose from the menu.");
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("An error occurred: " + e.getMessage());
             }
+
+            System.out.println("--------------------------------------------------\n");
         }
+    }
+
+    private static void printMenu() {
+        System.out.println("\n==================== MENU ====================");
+        System.out.println("USEDRESSING            - Use dressing room");
+        System.out.println("FREEUPDRESSING         - Free up dressing room");
+        System.out.println("ADDCUSTOMERINSHOP      - Add customer to shop");
+        System.out.println("SHOWCUSTOMERSSHOP      - Show all customers");
+        System.out.println("SHOWARTICLESSHOP       - Show all articles");
+        System.out.println("SHOWCUSTOMERARTICLES   - Show customer's articles");
+        System.out.println("ADDARTICLEFORCUSTOMER  - Add article for customer");
+        System.out.println("ADDARTICLEINSHOP       - Add article to shop");
+        System.out.println("CUSTOMERBILL           - Show customer bill");
+        System.out.println("EXIT                   - Exit the application");
+        System.out.println("==============================================");
     }
 }
